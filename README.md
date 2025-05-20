@@ -3,6 +3,7 @@
 This is my first full stack project made in compulsory practice at O2. In this project, I learned lots of stuff about APIs, frontend and backend web development. I used **React.js, FastAPI and PostgreSQL**.
 
 Tools and software I used:
+ 
 \
 ![SASS](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white)
 \
@@ -15,6 +16,8 @@ Tools and software I used:
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 \
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+\
+![Python](https://img.shields.io/badge/python-FFEE00?style=for-the-badge&logo=python&logoColor=black)
 
 
  
