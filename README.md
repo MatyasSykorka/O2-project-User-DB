@@ -11,13 +11,13 @@ Tools and software I used:
 \
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 \
+![Python](https://img.shields.io/badge/python-FFEE00?style=for-the-badge&logo=python&logoColor=black)
+\
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 \
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 \
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-\
-![Python](https://img.shields.io/badge/python-FFEE00?style=for-the-badge&logo=python&logoColor=black)
 
 
  
