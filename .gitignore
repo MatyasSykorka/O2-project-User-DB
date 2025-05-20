@@ -1,0 +1,9 @@
+.venv/
+backend/__pycache__/
+backend/inspiration.py/
+backend/main_(old).py
+backend/main_(test).py
+backend/test.py
+backend/o2_security.py
+script.py
+

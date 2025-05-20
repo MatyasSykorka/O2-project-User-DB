@@ -1,0 +1,28 @@
+services:
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: backend.dockerfile
+    ports:
+      - "5000:5000"
+    deploy:
+      restart_policy:
+          condition: on-failure
+          delay: 2s
+          max_attempts: 3
+          window: 120s  
+
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: frontend.dockerfile
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    deploy:
+      restart_policy:
+          condition: on-failure
+          delay: 2s
+          max_attempts: 3
+          window: 120s

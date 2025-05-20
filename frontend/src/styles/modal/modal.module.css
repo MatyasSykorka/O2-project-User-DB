@@ -1,0 +1,46 @@
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 5000;
+  align-items: center;
+  justify-content: center;
+}
+.modal.opened {
+  display: flex;
+}
+.modal .box {
+  width: 800px;
+  background-color: whitesmoke;
+  box-shadow: 0px 0px 120px whitesmoke;
+  padding: 1rem;
+  border-radius: 16px;
+  text-align: center;
+}
+.modal .box button {
+  height: 42px;
+  width: 120px;
+  border-radius: 8px;
+  border: 2px solid black;
+  font-size: 24px;
+  margin-left: 14px;
+  margin-right: 14px;
+  transition: all 0.5s;
+  background-color: lightgray;
+}
+.modal .box button:hover {
+  font-weight: bold;
+}
+.modal .box .cancel:hover {
+  background-color: lime;
+}
+.modal .box .delbttn:hover {
+  background-color: red;
+}
+.modal .box .givebttn:hover {
+  background-color: gold;
+}/*# sourceMappingURL=modal.module.css.map */
