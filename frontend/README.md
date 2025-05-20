@@ -1,8 +1,8 @@
 ###### Run React.js using terminal in frontend directory:
 ##### yarn dev
 
-
-\
+ 
+ 
 
 # React + TypeScript + Vite
 
