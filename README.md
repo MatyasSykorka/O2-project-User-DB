@@ -20,4 +20,4 @@ Tools and software I used:
  
  
  
-###### Better version of this project is at @broz07.
+###### Another version of this project is by @broz07.
