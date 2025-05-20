@@ -17,7 +17,7 @@ Tools and software I used:
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 
 
-
-\
+ 
+ 
  
 ###### Better version of this project is at @broz07.
