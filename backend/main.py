@@ -281,17 +281,27 @@ async def Delete_User(
         id: int | None = None, 
         username: str | None = None
     ):
-    if (id == None or username == None):
+
+    # print(f"{id} {username}")
+
+    if (id == None):
         return {"error": "Není uvedené ID nebo username pro smazání uživatele z databáze!"}
-    
+    else:
+        query = f"delete from postgres.public.users where id={id};"
+        print(query)
+        print(f"Uživatel s uživatelským jménem \"{username}\" a id \"{id}\" byl smazán.")    
+
+
+    """
     if(id != None):
         query = f"delete from public.users where id={id};"
         print(query)
         print(f"Uživatel s ID {id} byl smazán.")
     else:
-        query = f"delete from public.users where username='{username}';"
+        query = f"delete from public.users where username='{username}' or id={id};"
         print(query)
-        print(f"Uživatel s uživatelským jménem \"{username}\" byl smazán.")
+        print(f"Uživatel s uživatelským jménem \"{username}\" a id \"{id}\" byl smazán."
+    """
 
     conn = connect()
     cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
@@ -385,90 +395,56 @@ class UpdatePW(BaseModel):
 async def New_Password_Request(body: UpdatePW):
     print(f"{body.username} {body.old_password} {body.new_password} {body.sec_new_password}")
 
-    query = f"select count(*) from public.users where username='{body.username}' and password='{body.old_password}';"
-    print(query)
-
+    # Get the current hashed password from DB
     conn = connect()
     cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-
+    query = f"SELECT password FROM public.users WHERE username='{body.username}';"
     cur.execute(query)
     result = cur.fetchone()
-
     cur.close()
     conn.close()
 
-    count = result["count"]
-    print(count)
+    if not result:
+        raise HTTPException(status_code=404, detail="User not found")
 
-    if(count != 0):
-        if (
-            len(body.new_password) < 8
-            & body.new_password.find('#')
-            | body.new_password.find('*')
-            | body.new_password.find('/')
-            | body.new_password.find('&')
-            | body.new_password.find('$')
-            | body.new_password.find('§')
-            | body.new_password.find("<")
-            | body.new_password.find('>')
-            | body.new_password.find('_')
-            | body.new_password.find('-')
-            | body.new_password.find('{')
-            | body.new_password.find('}')
-            | body.new_password.find('\\')
-            | body.new_password.find('|')
-            | body.new_password.find('€')
-            | body.new_password.find('+')
-            | body.new_password.find('[')
-            | body.new_password.find(']')
-            | body.new_password.find('@')
-            & body.new_password.find('0')
-            | body.new_password.find('1')
-            | body.new_password.find('2')
-            | body.new_password.find('3')
-            | body.new_password.find('4')
-            | body.new_password.find('5')
-            | body.new_password.find('6')
-            | body.new_password.find('7')
-            | body.new_password.find('8')
-            | body.new_password.find('9')
-        ):
-            raise HTTPException(
-                status_code=status.HTTP_417_EXPECTATION_FAILED, 
-                detail="Your password doesn't meet the requirements!"
-            )
-        
-        if (not any(char.isupper() for char in body.new_password)):
-            raise HTTPException(
-                status_code=status.HTTP_417_EXPECTATION_FAILED, 
-                detail="Password does not have capitan character!"
-            )
-        if (not re.search('[A-Z]', body.new_password)):
-            raise HTTPException(
-                status_code=status.HTTP_417_EXPECTATION_FAILED, 
-                detail="Password does not have special character!"
-            )
-        
+    db_hashed_pwd = result["password"]
 
-        query = f"update public.users set password='{body.new_password}' where username='{body.username}';"
-        print(query)
+    # Check old password
+    if not bcrypt.checkpw(body.old_password.encode('utf-8'), db_hashed_pwd.encode('utf-8')):
+        raise HTTPException(status_code=401, detail="Old password is incorrect")
 
-        conn = connect()
-        cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-
-        cur.execute(query)
-        conn.commit()
-
-        cur.close()
-        conn.close()
-
-        return {"Password_change_status": "New password aplicated"}
-    else:
+    # Check new password requirements
+    if (
+        len(body.new_password) < 8
+        or not any(c in body.new_password for c in "#*/&$§<>_-{}\\|€+[]@0123456789")
+        or not any(char.isupper() for char in body.new_password)
+        or not re.search('[A-Z]', body.new_password)
+    ):
         raise HTTPException(
-                status_code=status.HTTP_417_EXPECTATION_FAILED, 
-                detail="Password does not have special character!"
-            )
-    
+            status_code=status.HTTP_417_EXPECTATION_FAILED, 
+            detail="New password does not meet requirements!"
+        )
+
+    if body.new_password != body.sec_new_password:
+        raise HTTPException(
+            status_code=status.HTTP_417_EXPECTATION_FAILED, 
+            detail="New passwords do not match!"
+        )
+
+    # 4. Hash new password and update
+    salt = bcrypt.gensalt(10)
+    hash_new_pwd = bcrypt.hashpw(body.new_password.encode('utf-8'), salt).decode('utf-8')
+
+    conn = connect()
+    cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    update_query = f"UPDATE public.users SET password='{hash_new_pwd}' WHERE username='{body.username}';"
+    cur.execute(update_query)
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    return {"Password_change_status": "New password aplicated"}
+
     """
     --- wrong code to check old password ---
 

@@ -77,7 +77,6 @@ export const loginAction = async ({request} : {request: Request}) => {
             console.error(
                 `Something happened in setting up the request that triggered an Error: ${axiosError.message}`
             );
-
             return null;
 		}
     }
@@ -150,6 +149,7 @@ export const registerAction = async ({request} : {request: Request}) => {
             console.error(
                 `The request was made and the server responded with a status code: ${axiosError.response.status}`
             );
+
             return null;
 		}
         else if (axiosError.request) {

@@ -46,33 +46,37 @@ export const UpdateProfileAction = async ({request} : {request: Request}) => {
                 "Aktualizace profilu byla neúspěšná!", 
                 { icon: '❗' }
             );
-            return console.error(
+            console.error(
                 `
                 The request was made and the server responded with a status code: 
                 ${axiosError.response.status}
                 `
             );
+
+            return null;
 		}
         else if (axiosError.request) {
             toast.error(
                 "Aktualizace profilu byla neúspěšná!", 
                 { icon: '❗' }
             );
-            return console.error(
+            console.error(
                 `The request was made but no response was received!`
             );
+            return null;
 		}
         else {
             toast.error(
                 "Aktualizace profilu byla neúspěšná!", 
                 { icon: '❗' }
             );
-            return console.error(
+            console.error(
                 `
                 Something happened in setting up the request that triggered an Error: 
                 ${axiosError.message}
                 `
             );
+            return null;
 		}
 	}
 }
@@ -86,17 +90,21 @@ export const UpdatePWAction = async ({request} : {request : Request}) => {
     const sec_new_PW = formData.get("secnewpw");
     
     if (sec_new_PW != new_PW) {
-        return toast.error(
+        toast.error(
             "Zkontrolujte si správnost nového hesela!", 
             { icon: '❗' }
         );
+
+        return null;
     }
 
     if (new_PW == old_PW) {
-        return toast.error(
+        toast.error(
             "Staré heslo a nové heslo se shodují!",
             { icon: '❗' }
         );
+
+        return null;
     }
 
     try {
@@ -116,10 +124,11 @@ export const UpdatePWAction = async ({request} : {request : Request}) => {
 
         if (response.status !== 200) {
             console.log(response.status); 
-            return toast.error(
+            toast.error(
                 "Žáddná shodnost hesla!", 
                 { icon: '❗' }
             );
+            return null;
         }
 
         toast.success(
@@ -135,33 +144,37 @@ export const UpdatePWAction = async ({request} : {request : Request}) => {
                 "Aktualizace hesla byla neúspěšná!", 
                 { icon: '❗' }
             );
-            return console.error(
+            console.error(
                 `
                 The request was made and the server responded with a status code:
                 ${axiosError.response.status}
                 `
             );
+
+            return null;
 		}
         else if (axiosError.request) {
             toast.error(
                 "Aktualizace hesla byla neúspěšná!",
                 { icon: '❗' }
             );
-            return console.error(
+            console.error(
                 `The request was made but no response was received!`
             );
+            return null;
 		}
         else {
             toast.error(
                 "Aktualizace hesla byla neúspěšná!",
                 { icon: '❗' }
             );
-            return console.error(
+            console.error(
                 `
                 Something happened in setting up the request that triggered an Error:
                 ${axiosError.message}
                 `
             );
+            return null;
 		}
 	}
 }
@@ -352,7 +365,7 @@ const UpdateWindow: React.FC<prop> = ({UpdateWType, loggedUser}) => {
                     </button>
                 </Form>
                 {/*
-                basic example of show password/text from AI + 
+                basic example of show password/text by AI 
                 <div>
                     <label htmlFor="pass">Enter password: </label>
                     <input

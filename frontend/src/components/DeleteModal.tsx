@@ -18,7 +18,8 @@ const DeleteModal: React.FC<ModalProps> = ({opened, close, userToDelete, where})
         try {
             await axios.delete("http://localhost:5000/user",{
                 params:{
-                    id:userToDelete?.id
+                    id:userToDelete?.id,
+                    username:userToDelete?.username
                 }
             });
 
