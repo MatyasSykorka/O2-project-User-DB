@@ -15,14 +15,7 @@ const PermissionModal: React.FC<ModalProps> = ({opened, close, userToPost}) => {
 
     const ConsultPermissionModal = async (): Promise<void> => {
         try {
-            /*
-            console.log(
-                `
-                ${userToPost?.id} ${userToPost?.name} ${userToPost?.surname} ${userToPost?.username} ${userToPost?.email} ${userToPost?.role_name}
-                `
-            );
-            */
-            const response = await axios.put("http://localhost:5000/move_to_tickets", undefined, {
+            await axios.put("http://localhost:5000/move_to_tickets", undefined, {
                 params: {
                     id: userToPost?.id,
                     name: userToPost?.name,
@@ -32,11 +25,7 @@ const PermissionModal: React.FC<ModalProps> = ({opened, close, userToPost}) => {
                     role: userToPost?.role
                 }
             });
-            /*
-            console.log(response.data);
-            const status = response.data.status;
-            console.log(status);
-            */ 
+
             toast.success(
                 "Žádanka na změmu práv byla úspěšná!", 
                 { icon: '✔' }

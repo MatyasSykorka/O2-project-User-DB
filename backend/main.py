@@ -8,7 +8,7 @@ from pydantic import BaseModel
 # importing important libraries for database connection
 import psycopg2
 import psycopg2.extras
-
+import bcrypt
 import re
 
 # importing file that store DB connection data
@@ -147,11 +147,12 @@ async def new_user(body: AddUserRequestBody):
             detail="Password does not have a special character!"
         )
 
+    #hash password using bcrypt
+    salt = bcrypt.gensalt(10)
+    hash_pwd = bcrypt.hashpw(body.password.encode('utf-8'), salt).decode('utf-8') 
 
     # SQL function to add user to DB
-    query = f"insert into public.users (name, surname, username, email, password) values ('{body.name}', '{body.surname}', '{body.username}', {email}, '{body.password}');"
-    # print(query)
-
+    query = f"insert into public.users (name, surname, username, email, password) values ('{body.name}', '{body.surname}', '{body.username}', {email}, '{hash_pwd}');"
     conn = connect()
     cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
@@ -182,8 +183,10 @@ async def User_login(body: LogIn):
     print(body.password)
     """
 
-    query = f"select count(*) from public.users where username='{body.username}' AND password='{body.password}';"
+    salt = bcrypt.gensalt(10)
+    hash_pwd = bcrypt.hashpw(body.password.encode('utf-8'), salt)
 
+    query = f"select password from public.users where username='{body.username}' ;"
     print(query)
 
     conn = connect()
@@ -195,10 +198,12 @@ async def User_login(body: LogIn):
     cur.close()
     conn.close()
 
-    count = result["count"]
-    print(count)
+    if not result:
+        return {"status": "ERROR", "message": "User not found"}
 
-    if(count != 0):
+    hash_pwd=result["password"]
+
+    if(bcrypt.checkpw(body.password.encode('utf-8'), hash_pwd.encode('utf-8'))):
         return {"status": "OK"}
     else:
         return {"status": "ERROR"}

@@ -16,17 +16,11 @@ const DeleteModal: React.FC<ModalProps> = ({opened, close, userToDelete, where})
 
     const removeAction = async (): Promise<void> => {
         try {
-            const response = await axios.delete("http://localhost:5000/user",{
+            await axios.delete("http://localhost:5000/user",{
                 params:{
                     id:userToDelete?.id
                 }
             });
-
-            /*
-            console.log(response.data);
-            const status = response.data.status;
-            console.log(status);
-            */
 
             toast.success(
                 "Smazání bylo úspěšné!", 
@@ -76,18 +70,12 @@ const DeleteModal: React.FC<ModalProps> = ({opened, close, userToDelete, where})
 
     const removeActionII = async (): Promise<void> => {
         try {
-            const response = await axios.delete("http://localhost:5000/update-profile",{
+            await axios.delete("http://localhost:5000/update-profile",{
                 params:{
                     id:userToDelete?.id
                 }
             });
 
-            /*
-            console.log(response.data);
-            const status = response.data.status;
-            console.log(status);
-            */
-            
             toast.success(
                 "Smazání uživatele bylo neúspěšné!", 
                 { icon: '✔' }
@@ -137,17 +125,11 @@ const DeleteModal: React.FC<ModalProps> = ({opened, close, userToDelete, where})
 
     const removeActionIII = async (): Promise<void> => {
         try {
-            const response = await axios.delete("http://localhost:5000/reject-permission",{
+            await axios.delete("http://localhost:5000/reject-permission",{
                 params:{
                     username:userToDelete?.username
                 }
             });
-
-            /*
-            console.log(response.data);
-            const status = response.data.status;
-            console.log(status);
-            */
 
             toast.success(
                 "Odmítnutí práv bylo úspěšné!", 

@@ -26,19 +26,12 @@ export const UpdateProfileAction = async ({request} : {request: Request}) => {
             surname: surname,
             email: email
         };
-        // console.log(body)
 
-        const response = axios.post("http://localhost:5000/update_user", body, {
+        axios.post("http://localhost:5000/update_user", body, {
             headers: {
                 "Content-Type": "application/json"
             },
         });
-
-        /*
-        console.log((await response).data)
-        const status = (await response).data.status;
-        console.log(status)
-        */
 
         toast.success(
             "Aktualizace profilu byla úspěšná!", 
@@ -65,11 +58,6 @@ export const UpdateProfileAction = async ({request} : {request: Request}) => {
                 "Aktualizace profilu byla neúspěšná!", 
                 { icon: '❗' }
             );
-			/*
-            throw new Error(
-                `The request was made but no response was received!`
-            );
-            */
             return console.error(
                 `The request was made but no response was received!`
             );
@@ -118,7 +106,6 @@ export const UpdatePWAction = async ({request} : {request : Request}) => {
             new_password: new_PW,
             sec_new_password: sec_new_PW
         }
-        // console.log(body)
 
         const response = await axios.post("http://localhost:5000/update_password", body, {
             headers: {
@@ -126,11 +113,6 @@ export const UpdatePWAction = async ({request} : {request : Request}) => {
             },
         });
 
-        /*
-        console.log(response.data)
-        const status = response.data.status;
-        console.log(status)
-        */
 
         if (response.status !== 200) {
             console.log(response.status); 
@@ -165,11 +147,6 @@ export const UpdatePWAction = async ({request} : {request : Request}) => {
                 "Aktualizace hesla byla neúspěšná!",
                 { icon: '❗' }
             );
-			/*
-            throw new Error(
-                `The request was made but no response was received!`
-            );
-            */
             return console.error(
                 `The request was made but no response was received!`
             );

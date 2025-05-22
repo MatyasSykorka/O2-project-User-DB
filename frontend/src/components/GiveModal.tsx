@@ -18,21 +18,13 @@ const GiveModal: React.FC<ModalProps> = ({opened, close, userToGive, where}) => 
  
     const GiveAdminPermission = async (): Promise<void> => {
         try {
-            // console.log(userToGive?.id)
-            // requesting database to find route and run
-            const response = await axios.put("http://localhost:5000/giveAdmin", undefined, {
+            await axios.put("http://localhost:5000/giveAdmin", undefined, {
                 params: {
                     id: userToGive?.id,
                     role: userToGive?.role,
                     username: userToGive?.username
                 }
             });
-            
-            /*
-            console.log(response.data);
-            const status = response.data.status;
-            console.log(status);
-            */
             
             toast.success(
                 "Úprava uživatelských práv bylo úspěšné!", 
@@ -87,18 +79,14 @@ const GiveModal: React.FC<ModalProps> = ({opened, close, userToGive, where}) => 
                 ${userToGive?.id} ${userToGive?.role} ${userToGive?.username}
                 `
             );
-            const response = await axios.put("http://localhost:5000/giveAdmin", undefined, {
+            await axios.put("http://localhost:5000/giveAdmin", undefined, {
                 params: {
                     id: userToGive?.id,
                     role: userToGive?.role,
                     username: userToGive?.username
                 }
             });
-            /*
-            console.log(response.data);
-            const status = response.data.status;
-            console.log(status);
-            */
+
             toast.success(
                 "Úprava uživatelských práv bylo úspěšné!", 
                 { icon: '✔' }
